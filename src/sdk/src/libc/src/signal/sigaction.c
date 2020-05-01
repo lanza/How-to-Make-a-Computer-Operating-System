@@ -1,25 +1,20 @@
 
- 
 
 #include <errno.h>
 #include <signal.h>
 
 #include <os.h>
 
-int sigaction( int signum, const struct sigaction* act, struct sigaction* oldact ) {
-    int error;
+int sigaction(int signum, const struct sigaction *act,
+              struct sigaction *oldact) {
+  int error;
 
-    error = syscall3(
-        SYS_sigaction,
-        signum,
-        ( int )act,
-        ( int )oldact
-    );
+  error = syscall3(SYS_sigaction, signum, (int)act, (int)oldact);
 
-    if ( error < 0 ) {
-        errno = -error;
-        return -1;
-    }
+  if (error < 0) {
+    errno = -error;
+    return -1;
+  }
 
-    return 0;
+  return 0;
 }

@@ -3,10 +3,10 @@ RM       = rm
 MKDIR    = mkdir
 TRUE     = true
 
-CC       = gcc
-CXX      = g++
+CC       = x86_64-elf-gcc
+CXX      = x86_64-elf-g++
 AS       = nasm
-LD       = ld
+LD       = x86_64-elf-ld
 AR       = ar
 RANLIB   = ranlib
 STRIP    = strip
@@ -16,9 +16,9 @@ LIBDIR   = $(SDKDIR)/lib
 
 DEFS:= $(DEFS)
 
-CFLAGS   = -I $(INCDIR) -Wall -fno-builtin -g -O2 -w -trigraphs   -fno-exceptions -fno-stack-protector -O0 -m32  -fno-rtti $(DEFS)
-CXXFLAGS = $(CFLAGS) 
-ASFLAGS  = $(CFLAGS) 
+CFLAGS   = -I $(INCDIR) -Wall -fno-builtin -g -O2 -w -trigraphs   -fno-exceptions -fno-stack-protector -O0 -m32  -fno-rtti $(DEFS) -std=gnu++11
+CXXFLAGS = $(CFLAGS)
+ASFLAGS  = $(CFLAGS)
 
 ifeq ($(CRT_FILE),)
 CRT_FILE = crt_c.o
@@ -42,6 +42,7 @@ run:
 	cd $(SDKDIR) &&	sh ./qemu.sh
 
 %.o: %.c
+	echo $(CC)
 	$(CC) $(CFLAGS)  -c $< 
 
 %.o: %.cpp

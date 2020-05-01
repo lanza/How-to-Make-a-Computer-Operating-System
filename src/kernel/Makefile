@@ -1,7 +1,7 @@
 ARCH=x86
 KERNEL=kernel.elf
 SDKDIR=../sdk
-INCDIR= -I ./ -I ./modules -I ./core -I ./arch/$(ARCH)
+INCDIR= -I ./ -I ./modules -I ./core -I ./arch/$(ARCH) -I../sdk/include/
 
 
 include ./arch/$(ARCH)/config.make
@@ -11,7 +11,7 @@ include ./core/Makefile
 include ./modules/Makefile
 include ./arch/$(ARCH)/Makefile
 
-FLAG :=$(FLAG) -D__$(ARCH)__
+FLAG :=$(FLAG) -D__$(ARCH)__ -fpermissive -nostdinc -std=gnu++11
 PLATFORMS= `find ./arch/ -type d | sed "s/.*\///" | sort`
 
 
@@ -39,7 +39,7 @@ install:
 debug:
 	$(NM) -n $(KERNEL)
 
-	
+
 hinfo:
 	$(OBJDUMP) -f $(KERNEL)
 	
@@ -61,7 +61,7 @@ geniso:
 	$(SC) $(FLAG) -c $< -o  $@
 	
 %.o: %.asm
-	$(ASM) $(ASMFLAG)  -c $< -o  $@
+	$(ASM) $(ASMFLAG) $< -o  $@
 
 
 clean:
