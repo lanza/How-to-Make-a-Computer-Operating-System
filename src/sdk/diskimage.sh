@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euf -o pipefail
 qemu-img create c.img 2M
 fdisk ./c.img  << EOF
 x
